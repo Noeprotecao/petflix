@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projeto Noé — Investigação Veterinária · PetFlix</title>
+  <meta name="description" content="Projeto Noé Proteção Animal. Investigação veterinária baseada em evidências regulatórias desde 2012. Nei Decanio." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&family=Barlow+Condensed:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #8B0000;
+      --red-bright: #b30000;
+      --red-glow: rgba(139,0,0,0.35);
+      --black: #0a0a0a;
+      --dark: #111111;
+      --card: #181818;
+      --text: #e8e8e8;
+      --muted: #888;
+      --border: rgba(139,0,0,0.25);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 64px;
+      background: rgba(10,10,10,0.97);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; color: var(--red-bright);
+      letter-spacing: 3px; text-decoration: none;
+    }
+    .logo span { color: var(--text); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav ul a:hover, nav ul a.active { color: var(--text); }
+    nav ul a.active { color: var(--red-bright); }
+    .nav-back {
+      background: transparent; border: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted) !important; padding: 0.4rem 1rem; transition: all 0.2s;
+    }
+    .nav-back:hover { border-color: var(--red); color: var(--text) !important; }
+
+    /* CHANNEL HERO */
+    .channel-hero {
+      padding: 120px 5% 60px;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(139,0,0,0.15) 0%, transparent 60%),
+        linear-gradient(to bottom, #0a0a0a, #111);
+      border-bottom: 1px solid var(--border);
+    }
+    .channel-header {
+      display: flex; align-items: flex-end; gap: 2rem; flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .channel-avatar {
+      width: 120px; height: 120px; flex-shrink: 0;
+      background: var(--red);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem; letter-spacing: 3px; color: #fff;
+      border: 3px solid var(--red-bright);
+      box-shadow: 0 0 40px var(--red-glow);
+    }
+    .channel-meta { flex: 1; min-width: 260px; }
+    .channel-verified {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--red-bright); margin-bottom: 0.5rem;
+    }
+    .channel-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: 2px; color: #fff; line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .channel-sub {
+      font-size: 0.9rem; color: var(--muted);
+    }
+    .channel-stats {
+      display: flex; gap: 2rem; flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    .stat { text-align: left; }
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem; letter-spacing: 1px; color: var(--red-bright);
+    }
+    .stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .channel-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--red); color: #fff;
+      padding: 0.9rem 2rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--red-bright); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      padding: 0.9rem 2rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: border-color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--red); }
+
+    /* MISSION BAND */
+    .mission-band {
+      background: var(--red);
+      padding: 1.2rem 5%;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; letter-spacing: 2px; text-transform: uppercase;
+      color: #fff; text-align: center;
+    }
+    .mission-band em { font-style: normal; opacity: 0.7; margin: 0 1rem; }
+
+    /* MAIN */
+    main { padding: 0 5%; }
+    section { padding: 60px 0; }
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--red-bright); margin-bottom: 0.4rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      letter-spacing: 2px; color: #fff;
+      margin-bottom: 0.4rem;
+    }
+    .section-sub {
+      color: var(--muted); font-size: 0.9rem; margin-bottom: 2.5rem;
+    }
+    .section-divider {
+      border: none; border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* CONTENT GRID */
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+    .content-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      text-decoration: none; color: inherit; display: block;
+    }
+    .content-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--red);
+      box-shadow: 0 8px 24px var(--red-glow);
+    }
+    .card-thumb {
+      width: 100%; aspect-ratio: 16/9;
+      background: #1a0a0a;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card-thumb .play-btn {
+      width: 44px; height: 44px;
+      background: rgba(139,0,0,0.9);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: #fff;
+      transition: transform 0.2s;
+      position: relative; z-index: 1;
+    }
+    .content-card:hover .play-btn { transform: scale(1.15); }
+    .card-thumb .label-bg {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.78rem; letter-spacing: 2px;
+      color: rgba(139,0,0,0.25); text-align: center; padding: 1rem;
+    }
+    .card-tag {
+      position: absolute; top: 8px; left: 8px;
+      background: #1a5c1a; color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase;
+      padding: 2px 8px;
+    }
+    .card-tag.premium { background: var(--red); }
+    .card-body { padding: 1rem; }
+    .card-body h3 {
+      font-weight: 700; font-size: 0.9rem;
+      margin-bottom: 0.35rem; color: #fff; line-height: 1.3;
+    }
+    .card-body p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .card-meta {
+      display: flex; gap: 0.7rem; margin-top: 0.5rem;
+      font-size: 0.7rem; color: #555;
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 1px; text-transform: uppercase;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+      align-items: start;
+    }
+    .about-text h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem; letter-spacing: 2px; color: #fff; margin-bottom: 1rem;
+    }
+    .about-text p {
+      color: #bbb; font-size: 0.95rem; line-height: 1.8; margin-bottom: 1rem;
+    }
+    .about-text p strong { color: var(--red-bright); }
+    .about-text blockquote {
+      border-left: 3px solid var(--red);
+      padding-left: 1.2rem; margin: 1.5rem 0;
+      font-style: italic; color: #999; font-size: 0.95rem;
+    }
+    .evidence-list { list-style: none; }
+    .evidence-item {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-left: 3px solid var(--red);
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+    .evidence-item .source {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--red-bright); margin-bottom: 0.3rem;
+    }
+    .evidence-item p { font-size: 0.88rem; color: #bbb; line-height: 1.5; }
+
+    /* EBOOKS */
+    .ebook-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 1.2rem;
+    }
+    .ebook-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 1.2rem;
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none; color: inherit; display: block;
+    }
+    .ebook-card:hover { border-color: var(--red); transform: translateY(-3px); }
+    .ebook-cover {
+      width: 100%; aspect-ratio: 3/4;
+      background: linear-gradient(135deg, #1a0000, #2a0000);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 1rem; margin-bottom: 0.8rem;
+    }
+    .ebook-cover span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.95rem; letter-spacing: 1px;
+      color: var(--red-bright); line-height: 1.3;
+    }
+    .ebook-title { font-weight: 700; font-size: 0.85rem; margin-bottom: 0.3rem; color: #fff; }
+    .ebook-price { color: var(--red-bright); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; }
+
+    /* ECOSYSTEM */
+    .ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .eco-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 1.5rem;
+      text-decoration: none; color: inherit; display: block;
+      transition: border-color 0.2s;
+    }
+    .eco-card:hover { border-color: var(--red); }
+    .eco-platform {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--red-bright); margin-bottom: 0.5rem;
+    }
+    .eco-name { font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
+    .eco-desc { font-size: 0.82rem; color: var(--muted); }
+
+    /* FOOTER */
+    footer {
+      background: #000;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 5%;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-left p { font-size: 0.8rem; color: #444; margin-top: 0.3rem; }
+    .footer-sig {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--red-bright);
+    }
+
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .channel-header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">Pet<span>Flix</span></a>
+  <ul>
+    <li><a href="index.html#conteudo">Conteúdo</a></li>
+    <li><a href="index.html#ebooks">Ebooks</a></li>
+    <li><a href="index.html#planos">Planos</a></li>
+    <li><a href="projeto-noe.html" class="active">Projeto Noé</a></li>
+    <li><a href="index.html" class="nav-back">← Voltar</a></li>
+  </ul>
+</nav>
+
+<!-- CHANNEL HERO -->
+<div class="channel-hero">
+  <div class="channel-header">
+    <div class="channel-avatar">NOÉ</div>
+    <div class="channel-meta">
+      <div class="channel-verified">✦ Canal verificado · Est. 2012</div>
+      <h1 class="channel-name">Projeto Noé<br/>Proteção Animal</h1>
+      <p class="channel-sub">Investigação Veterinária · São Paulo, Brasil · Nei Decanio</p>
+      <div class="channel-stats">
+        <div class="stat">
+          <div class="stat-value">2012</div>
+          <div class="stat-label">Fundação</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">FDA</div>
+          <div class="stat-label">Fonte regulatória</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">EMA</div>
+          <div class="stat-label">Fonte regulatória</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">WSAVA</div>
+          <div class="stat-label">Protocolo de referência</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="channel-actions">
+    <a href="https://www.youtube.com/@noeprotecaoanimal-verdade" target="_blank" class="btn-primary">▶ YouTube</a>
+    <a href="https://www.instagram.com/ProjetoNoe" target="_blank" class="btn-outline">Instagram</a>
+    <a href="index.html#planos" class="btn-outline">Biblioteca de Ebooks</a>
+  </div>
+</div>
+
+<!-- MISSION BAND -->
+<div class="mission-band">
+  Ética ou lucro. <em>·</em> Escolha um.
+</div>
+
+<main>
+
+  <!-- CONTEÚDO INVESTIGATIVO -->
+  <section id="investigacao">
+    <div class="section-label">Investigação Veterinária</div>
+    <div class="section-title">Conteúdo do Canal</div>
+    <p class="section-sub">Baseado em documentos regulatórios. Sem suavização. Sem afiliação corporativa.</p>
+
+    <!-- CAIXA ELETRÔNICO DA CAUSA -->
+    <a href="https://youtu.be/_gGkeiRHDmk" target="_blank" class="content-card" style="display:flex; align-items:center; gap:1.5rem; padding:1.2rem; margin-bottom:2rem; border-color: rgba(139,0,0,0.5); background: linear-gradient(90deg, #1a0000, #181818);">
+      <div style="flex-shrink:0; width:64px; height:64px; background:var(--red); display:flex; align-items:center; justify-content:center; font-size:1.8rem;">🏧</div>
+      <div style="flex:1;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:var(--red-bright); margin-bottom:0.3rem;">Apoie a Causa Animal</div>
+        <h3 style="font-size:1rem; color:#fff; margin-bottom:0.2rem;">CAIXA ELETRÔNICO DA CAUSA — Doação para a Causa Animal</h3>
+        <p style="font-size:0.8rem; color:var(--muted);">O projeto sobrevive pela causa, não pela indústria. Assista e entenda como apoiar.</p>
+      </div>
+      <div style="flex-shrink:0; width:44px; height:44px; background:var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff;">▶</div>
+    </a>
+
+    <div class="content-grid">
+
+      <!-- VÍDEO REAL 1 — Castração Shorts -->
+      <a href="https://www.youtube.com/shorts/uCjFVuDWkWo" target="_blank" class="content-card">
+        <div class="card-thumb">
+          <div class="label-bg">CASTRAÇÃO · A VERDADE NÃO DITA</div>
+          <div class="card-tag">Grátis</div>
+          <div class="play-btn">▶</div>
+        </div>
+        <div class="card-body">
+          <h3>Castração — O que você não foi informado</h3>
+          <p>Braçadeiras de nylon usadas como sutura. Mortes por hemorragia. Caso documentado em Minas Gerais.</p>
+          <div class="card-meta"><span>Investigação</span><span>·</span><span>Shorts</span></div>
+        </div>
+      </a>
+
+      <!-- VÍDEO REAL 2 — Castração Shorts -->
+      <a href="https://www.youtube.com/shorts/HXubeha2fOw" target="_blank" class="content-card">
+        <div class="card-thumb">
+          <div class="label-bg">CASTRAÇÃO · PARTE 2</div>
+          <div class="card-tag">Grátis</div>
+          <div class="play-btn">▶</div>
+        </div>
+        <div class="card-body">
+          <h3>Castração — Continuação</h3>
+          <p>O sistema que normalizou uma prática que mata. Sem suavização.</p>
+          <div class="card-meta"><span>Investigação</span><span>·</span><span>Shorts</span></div>
+        </div>
+      </a>
+
+      <!-- VÍDEO REAL 3 — Podcast Ração -->
+      <a href="https://youtu.be/JDgbnHQbtwg?t=12" target="_blank" class="content-card">
+        <div class="card-thumb">
+          <div class="label-bg">RAÇÃO · ULTRAPROCESSADOS · INDÚSTRIA</div>
+          <div class="card-tag">Grátis</div>
+          <div class="play-btn">▶</div>
+        </div>
+        <div class="card-body">
+          <h3>Ração — Ultraprocessados e a indústria pet</h3>
+          <p>Podcast completo. O que está dentro da ração que você compra todo mês.</p>
+          <div class="card-meta"><span>Podcast</span><span>·</span><span>Projeto Noé</span></div>
+        </div>
+      </a>
+
+      <!-- EM BREVE — Isoxazolinas -->
+      <div class="content-card" style="opacity:0.5; cursor:default;">
+        <div class="card-thumb">
+          <div class="label-bg">ISOXAZOLINAS · BRAVECTO · NEXGARD</div>
+          <div class="card-tag" style="background:#333;">Em breve</div>
+          <div class="play-btn" style="background:rgba(80,80,80,0.6);">▶</div>
+        </div>
+        <div class="card-body">
+          <h3>Isoxazolinas — Alertas regulatórios ativos</h3>
+          <p>Bravecto, NexGard, Credelio, Simparica. Eventos neurológicos documentados pela FDA.</p>
+          <div class="card-meta"><span>FDA · EMA</span><span>·</span><span>Em produção</span></div>
+        </div>
+      </div>
+
+      <!-- EM BREVE — Librela -->
+      <div class="content-card" style="opacity:0.5; cursor:default;">
+        <div class="card-thumb">
+          <div class="label-bg">LIBRELA · 3.674 RELATOS FDA</div>
+          <div class="card-tag" style="background:#333;">Em breve</div>
+          <div class="play-btn" style="background:rgba(80,80,80,0.6);">▶</div>
+        </div>
+        <div class="card-body">
+          <h3>Librela — 3.674 relatos de eventos adversos</h3>
+          <p>Sinais neurológicos, mortes e a ausência de aviso que a FDA exigiu da Elanco.</p>
+          <div class="card-meta"><span>FDA</span><span>·</span><span>Em produção</span></div>
+        </div>
+      </div>
+
+      <!-- EM BREVE — Vacinação -->
+      <div class="content-card" style="opacity:0.5; cursor:default;">
+        <div class="card-thumb">
+          <div class="label-bg">VACINAÇÃO FILHOTES · WSAVA 2024</div>
+          <div class="card-tag" style="background:#333;">Em breve</div>
+          <div class="play-btn" style="background:rgba(80,80,80,0.6);">▶</div>
+        </div>
+        <div class="card-body">
+          <h3>Vacinação em Filhotes — Protocolo WSAVA 2024</h3>
+          <p>Titer testing, sarcomas felinos, reações adversas e consentimento informado.</p>
+          <div class="card-meta"><span>WSAVA</span><span>·</span><span>Em produção</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="section-label">Sobre o Canal</div>
+        <h2>Um investigador solo.<br/>Desde 2012.</h2>
+        <p>O Projeto Noé Proteção Animal não nasceu de um plano. Nasceu de uma perda. <strong>Ozzy</strong> — um cão morto por erliquiose após atendimento veterinário negligente e tardio. O que veio depois não foi luto passivo.</p>
+        <p>Desde 2012, o projeto opera com CNPJ, sem associados, sem patrocinadoras, sem afiliação à indústria veterinária. O que existe aqui é <strong>investigação baseada em documentos regulatórios</strong> — FDA, EMA, bulas, ensaios clínicos e literatura científica.</p>
+        <blockquote>
+          "A grande maioria dos tutores de pets confia no veterinário incondicionalmente e terceiriza toda a responsabilidade. Questiona apenas o preço. Nunca a decisão clínica."
+        </blockquote>
+        <p>Este canal existe para mudar isso. Sem suavizar. Sem eufemismo. Com fontes rastreáveis.</p>
+        <p style="font-family: 'Barlow Condensed', sans-serif; letter-spacing: 2px; text-transform: uppercase; color: var(--red-bright); font-size: 0.9rem; margin-top: 1.5rem;">
+          Nei Decanio — Projeto Noé Proteção Animal<br/>
+          <span style="color: var(--muted);">Ética ou lucro.</span>
+        </p>
+      </div>
+
+      <div>
+        <div class="section-label">Base de Evidências</div>
+        <div class="section-title" style="font-size: 1.6rem; margin-bottom: 1.5rem;">Fontes que sustentam o conteúdo</div>
+        <ul class="evidence-list">
+          <li class="evidence-item">
+            <div class="source">FDA · 2024</div>
+            <p>Eventos neurológicos (ataxia, convulsões, tremores) associados a isoxazolinas documentados em Bravecto, NexGard, Credelio e Simparica.</p>
+          </li>
+          <li class="evidence-item">
+            <div class="source">FDA · Warning Letter · Janeiro 2025</div>
+            <p>Elanco notificada por omitir o boxed warning obrigatório em material promocional do Zenrelia (lokivetmab).</p>
+          </li>
+          <li class="evidence-item">
+            <div class="source">FDA · FAERS · Librela</div>
+            <p>3.674 relatos de eventos adversos para bedinvetmab — incluindo sinais neurológicos e mortes — registrados no sistema de vigilância pós-comercialização.</p>
+          </li>
+          <li class="evidence-item">
+            <div class="source">EMA · Revisão de Segurança</div>
+            <p>Avaliação em curso sobre antiparasitários sistêmicos. Resultados com implicações para protocolos de rotina.</p>
+          </li>
+          <li class="evidence-item">
+            <div class="source">WSAVA · 2024</div>
+            <p>Diretrizes de vacinação em cães e gatos — incluindo titer testing, intervalo estendido e critérios de contraindicação.</p>
+          </li>
+          <li class="evidence-item">
+            <div class="source">AAHA · 2022</div>
+            <p>Diretrizes atualizadas de manejo da dor em pequenos animais. Reconhecimento formal de dor neuropática em cães e gatos.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- EBOOKS -->
+  <section id="ebooks">
+    <div class="section-label">Biblioteca Animal</div>
+    <div class="section-title">Ebooks do Projeto Noé</div>
+    <p class="section-sub">Produtos editoriais disponíveis para tutores que querem ir além da consulta.</p>
+
+    <div class="ebook-grid">
+      <a href="index.html#planos" class="ebook-card">
+        <div class="ebook-cover"><span>Castração<br/>A Verdade<br/>Não Dita</span></div>
+        <div class="ebook-title">Castração: A Verdade Não Dita</div>
+        <div class="ebook-price">R$ 47,90</div>
+      </a>
+      <a href="index.html#planos" class="ebook-card">
+        <div class="ebook-cover"><span>Meu Pet<br/>Sente<br/>Dor?</span></div>
+        <div class="ebook-title">Meu Pet Sente Dor?</div>
+        <div class="ebook-price">R$ 37,90</div>
+      </a>
+      <a href="index.html#planos" class="ebook-card">
+        <div class="ebook-cover"><span>Dor<br/>Neuropática<br/>Veterinária</span></div>
+        <div class="ebook-title">Dor Neuropática — Guia Técnico</div>
+        <div class="ebook-price">R$ 37,90</div>
+      </a>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ECOSSISTEMA -->
+  <section id="ecossistema">
+    <div class="section-label">Onde nos encontrar</div>
+    <div class="section-title">Ecossistema Noé</div>
+    <p class="section-sub">O mesmo conteúdo. Formatos diferentes para cada plataforma.</p>
+
+    <div class="ecosystem-grid">
+      <a href="https://www.youtube.com/@noeprotecaoanimal-verdade" target="_blank" class="eco-card">
+        <div class="eco-platform">▶ YouTube</div>
+        <div class="eco-name">Projeto Noé — Canal Principal</div>
+        <div class="eco-desc">Investigação em vídeo. Análise de documentos regulatórios. Casos documentados.</div>
+      </a>
+      <a href="https://www.instagram.com/ProjetoNoe" target="_blank" class="eco-card">
+        <div class="eco-platform">◉ Instagram</div>
+        <div class="eco-name">@ProjetoNoe</div>
+        <div class="eco-desc">Posts curtos, Reels e cards educativos. PT + EN.</div>
+      </a>
+      <a href="https://www.tiktok.com/@ProjetoNoe" target="_blank" class="eco-card">
+        <div class="eco-platform">◈ TikTok</div>
+        <div class="eco-name">@ProjetoNoe</div>
+        <div class="eco-desc">Formato vertical. Conteúdo investigativo em 60 segundos.</div>
+      </a>
+      <a href="https://open.substack.com" target="_blank" class="eco-card">
+        <div class="eco-platform">✦ Substack</div>
+        <div class="eco-name">Noé Animal Protection Project</div>
+        <div class="eco-desc">Artigos técnicos completos em inglês. Fontes FDA/EMA com links diretos.</div>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <a href="index.html" class="logo" style="font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--red-bright); letter-spacing: 3px; text-decoration: none;">Pet<span style="color: var(--text);">Flix</span></a>
+    <p>© 2024 Projeto Noé Proteção Animal · Est. 2012 · São Paulo, Brasil</p>
+  </div>
+  <div class="footer-sig">
+    Nei Decanio — Projeto Noé Proteção Animal<br/>
+    Ética ou lucro.
+  </div>
+</footer>
+
+</body>
+</html>
